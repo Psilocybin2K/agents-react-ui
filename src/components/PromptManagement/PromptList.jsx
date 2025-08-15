@@ -1,10 +1,8 @@
 import React, { useMemo, useState } from 'react';
 import { Input, Button, Text } from '@fluentui/react-components';
 import { AddRegular, SearchRegular } from '@fluentui/react-icons';
-import useStyles from './styles';
 
 const PromptList = ({ prompts = [], selectedId, onSelect, onCreateNew }) => {
-  const styles = useStyles();
   const [query, setQuery] = useState('');
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -81,8 +79,10 @@ const PromptList = ({ prompts = [], selectedId, onSelect, onCreateNew }) => {
               opacity: 0.6
             }}>
               <div style={{ fontSize: '48px', marginBottom: '16px' }}>📝</div>
-              <Text weight="semibold">No prompts found</Text>
-              <Text size="small" style={{ marginTop: '8px' }}>
+              <Text weight="semibold" style={{ display: 'block', marginBottom: '8px' }}>
+                No prompts found
+              </Text>
+              <Text size="small">
                 {query ? 'Try adjusting your search terms' : 'Create your first prompt to get started'}
               </Text>
             </div>
@@ -183,5 +183,3 @@ const PromptList = ({ prompts = [], selectedId, onSelect, onCreateNew }) => {
 };
 
 export default PromptList;
-
-

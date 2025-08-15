@@ -103,3 +103,44 @@
  * @property {boolean=} allowAutoSave - Whether auto-save is permitted
  */
 
+/**
+ * @typedef {Object} TestStep
+ * @property {string} id - Unique step ID
+ * @property {string} description - Step description/action
+ * @property {('pending'|'running'|'passed'|'failed'|'skipped')} status - Current status
+ * @property {string=} expectedResult - Expected outcome
+ * @property {string=} actualResult - Actual outcome (when failed)
+ * @property {string=} errorMessage - Error details (when failed)
+ * @property {number} duration - Execution time in milliseconds
+ * @property {string} createdAt - ISO timestamp
+ * @property {string=} completedAt - ISO timestamp when completed
+ */
+
+/**
+ * @typedef {Object} TestCase
+ * @property {string} id - Unique test case ID
+ * @property {string} name - Test case name
+ * @property {string=} description - Test case description
+ * @property {('pending'|'running'|'passed'|'failed'|'skipped')} status - Current status
+ * @property {TestStep[]} steps - Ordered test steps
+ * @property {number} duration - Total execution time in milliseconds
+ * @property {string[]=} tags - Optional tags for filtering
+ * @property {string} createdAt - ISO timestamp
+ * @property {string=} startedAt - ISO timestamp when execution started
+ * @property {string=} completedAt - ISO timestamp when completed
+ */
+
+/**
+ * @typedef {Object} TestSuite
+ * @property {string} id - Unique test suite ID
+ * @property {string} name - Test suite name
+ * @property {string=} description - Test suite description
+ * @property {('pending'|'running'|'passed'|'failed'|'skipped')} status - Current status
+ * @property {TestCase[]} testCases - Test cases in this suite
+ * @property {number} duration - Total execution time in milliseconds
+ * @property {string[]=} tags - Optional tags for filtering
+ * @property {string} createdAt - ISO timestamp
+ * @property {string=} startedAt - ISO timestamp when execution started
+ * @property {string=} completedAt - ISO timestamp when completed
+ */
+

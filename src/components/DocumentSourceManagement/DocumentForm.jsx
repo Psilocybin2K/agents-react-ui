@@ -1,6 +1,6 @@
 import React, { forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
 import { Field, Input, Textarea, Dropdown, Option, Label, Text, Button } from '@fluentui/react-components';
-import useStyles from './styles';
+import { DocumentRegular } from '@fluentui/react-icons';
 
 const MAX = {
   name: 100,
@@ -18,7 +18,6 @@ const MAX = {
  * focus API via ref (focusField(name)).
  */
 const DocumentForm = forwardRef(function DocumentForm({ value, onChange, errors = {}, disabled = false, onFieldBlur }, ref) {
-  const styles = useStyles();
   const v = value || {};
 
   const nameRef = useRef(null);
@@ -57,122 +56,246 @@ const DocumentForm = forwardRef(function DocumentForm({ value, onChange, errors 
   };
 
   return (
-    <form className={styles.form} onSubmit={(e) => e.preventDefault()} aria-disabled={disabled}>
-      <div className={styles.formGrid}>
-        <Field label={
-          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <span>Name</span>
-            <Text size={200} style={{ opacity: 0.7 }}>{counts.name}/{MAX.name}</Text>
-          </div>
-        } validationMessage={errors.name} validationState={errors.name ? 'error' : undefined}>
-          <Input ref={nameRef} value={v.name || ''} onChange={(_, d) => set({ name: d.value })} onBlur={() => onFieldBlur && onFieldBlur('name')} required />
-        </Field>
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+      {/* Scrollable Content */}
+      <div style={{ flex: 1, overflow: 'auto', paddingRight: '8px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          {/* Basic Information Section */}
+          <div style={{ 
+            padding: '12px', 
+            background: 'var(--colorNeutralBackground2)', 
+            borderRadius: '8px',
+            border: '1px solid var(--colorNeutralStroke1)'
+          }}>
+            <Text weight="semibold" size="medium" style={{ marginBottom: '8px', display: 'block' }}>
+              Basic Information
+            </Text>
+            
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              <Field 
+                label={
+                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <span>Name</span>
+                    <Text size={200} style={{ opacity: 0.7 }}>{counts.name}/{MAX.name}</Text>
+                  </div>
+                } 
+                validationMessage={errors.name} 
+                validationState={errors.name ? 'error' : undefined}
+                required
+              >
+                <Input 
+                  ref={nameRef} 
+                  value={v.name || ''} 
+                  onChange={(_, d) => set({ name: d.value })} 
+                  onBlur={() => onFieldBlur && onFieldBlur('name')} 
+                  placeholder="Enter document name..."
+                />
+              </Field>
 
-        <Field label={
-          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <span>Description</span>
-            <Text size={200} style={{ opacity: 0.7 }}>{counts.description}/{MAX.description}</Text>
-          </div>
-        } validationMessage={errors.description} validationState={errors.description ? 'error' : undefined}>
-          <Textarea ref={descRef} value={v.description || ''} onChange={(_, d) => set({ description: d.value })} onBlur={() => onFieldBlur && onFieldBlur('description')} rows={3} />
-        </Field>
-
-        <Field label="Kind">
-          <Dropdown
-            selectedOptions={[v.kind || 'text']}
-            onOptionSelect={(_, data) => set({ kind: data.optionValue, content: '', url: '', fileMeta: null })}
-          >
-            <Option key="text" value="text">Text</Option>
-            <Option key="url" value="url">URL</Option>
-            <Option key="file" value="file">File (metadata only)</Option>
-          </Dropdown>
-        </Field>
-
-        {v.kind === 'text' && (
-          <Field label={
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <span>Text Content</span>
-              <Text size={200} style={{ opacity: 0.7 }}>{counts.content}/{MAX.content}</Text>
+              <Field 
+                label={
+                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <span>Description</span>
+                    <Text size={200} style={{ opacity: 0.7 }}>{counts.description}/{MAX.description}</Text>
+                  </div>
+                } 
+                validationMessage={errors.description} 
+                validationState={errors.description ? 'error' : undefined}
+              >
+                <Textarea 
+                  ref={descRef} 
+                  value={v.description || ''} 
+                  onChange={(_, d) => set({ description: d.value })} 
+                  onBlur={() => onFieldBlur && onFieldBlur('description')} 
+                  rows={3} 
+                  placeholder="Describe this document..."
+                />
+              </Field>
             </div>
-          } validationMessage={errors.content} validationState={errors.content ? 'error' : undefined}>
-            <Textarea ref={contentRef} value={v.content || ''} onChange={(_, d) => set({ content: d.value })} onBlur={() => onFieldBlur && onFieldBlur('content')} rows={8} />
-            <div style={{ marginTop: 8 }}>
-              <Button appearance="secondary" onClick={() => importTextFileRef.current && importTextFileRef.current.click()} disabled={disabled}>Import .txt/.md</Button>
-              <input
-                ref={importTextFileRef}
-                type="file"
-                accept=".txt,.md,text/plain,text/markdown"
-                style={{ display: 'none' }}
-                onChange={async (e) => {
-                  const file = e.target.files && e.target.files[0];
-                  if (!file) return;
-                  try {
-                    const text = await file.text();
-                    set({ content: text });
-                  } catch (err) {
-                    // no-op; import is best-effort
-                  } finally {
-                    e.target.value = '';
-                  }
-                }}
+          </div>
+
+          {/* Document Configuration Section */}
+          <div style={{ 
+            padding: '12px', 
+            background: 'var(--colorNeutralBackground2)', 
+            borderRadius: '8px',
+            border: '1px solid var(--colorNeutralStroke1)'
+          }}>
+            <Text weight="semibold" size="medium" style={{ marginBottom: '8px', display: 'block' }}>
+              Document Configuration
+            </Text>
+            
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+              <Field label="Document Type">
+                <Dropdown
+                  selectedOptions={[v.kind || 'text']}
+                  onOptionSelect={(_, data) => set({ kind: data.optionValue, content: '', url: '', fileMeta: null })}
+                >
+                  <Option key="text" value="text">Text Content</Option>
+                  <Option key="url" value="url">URL Reference</Option>
+                  <Option key="file" value="file">File Upload</Option>
+                </Dropdown>
+              </Field>
+
+              {v.kind === 'text' && (
+                <Field 
+                  label={
+                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                      <span>Text Content</span>
+                      <Text size={200} style={{ opacity: 0.7 }}>{counts.content}/{MAX.content}</Text>
+                    </div>
+                  } 
+                  validationMessage={errors.content} 
+                  validationState={errors.content ? 'error' : undefined}
+                  required
+                >
+                  <Textarea 
+                    ref={contentRef} 
+                    value={v.content || ''} 
+                    onChange={(_, d) => set({ content: d.value })} 
+                    onBlur={() => onFieldBlur && onFieldBlur('content')} 
+                    rows={8} 
+                    placeholder="Enter your document content here..."
+                    style={{ minHeight: '120px', resize: 'vertical' }}
+                  />
+                  <div style={{ marginTop: 8 }}>
+                    <Button 
+                      appearance="secondary" 
+                      icon={<DocumentRegular />}
+                      onClick={() => importTextFileRef.current && importTextFileRef.current.click()} 
+                      disabled={disabled}
+                    >
+                      Import from File
+                    </Button>
+                    <input
+                      ref={importTextFileRef}
+                      type="file"
+                      accept=".txt,.md,text/plain,text/markdown"
+                      style={{ display: 'none' }}
+                      onChange={async (e) => {
+                        const file = e.target.files && e.target.files[0];
+                        if (!file) return;
+                        try {
+                          const text = await file.text();
+                          set({ content: text });
+                        } catch (err) {
+                          // no-op; import is best-effort
+                        } finally {
+                          e.target.value = '';
+                        }
+                      }}
+                    />
+                  </div>
+                </Field>
+              )}
+
+              {v.kind === 'url' && (
+                <Field 
+                  label={
+                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                      <span>URL</span>
+                      <Text size={200} style={{ opacity: 0.7 }}>{counts.url}/{MAX.url}</Text>
+                    </div>
+                  } 
+                  validationMessage={errors.url} 
+                  validationState={errors.url ? 'error' : undefined}
+                  required
+                >
+                  <Input 
+                    ref={urlRef} 
+                    value={v.url || ''} 
+                    onChange={(_, d) => set({ url: d.value })} 
+                    onBlur={() => onFieldBlur && onFieldBlur('url')} 
+                    placeholder="https://example.com/document" 
+                  />
+                </Field>
+              )}
+
+              {v.kind === 'file' && (
+                <div>
+                  <Label htmlFor="file-input" weight="semibold">File Upload</Label>
+                  <div style={{ marginTop: 8 }}>
+                    <input
+                      id="file-input"
+                      ref={fileRef}
+                      type="file"
+                      accept="text/*,application/pdf"
+                      onBlur={() => onFieldBlur && onFieldBlur('file')}
+                      onChange={(e) => {
+                        const file = e.target.files && e.target.files[0];
+                        if (!file) { set({ fileMeta: null }); return; }
+                        set({ fileMeta: { name: file.name, size: file.size, type: file.type } });
+                      }}
+                      style={{ 
+                        padding: '8px',
+                        border: '1px solid var(--colorNeutralStroke1)',
+                        borderRadius: '4px',
+                        width: '100%'
+                      }}
+                    />
+                    {errors.file && (
+                      <div role="alert" aria-live="polite" style={{ color: 'var(--colorPaletteRedForeground1, #a80000)', fontSize: 12, marginTop: 4 }}>
+                        {errors.file}
+                      </div>
+                    )}
+                    {v.fileMeta && (
+                      <div style={{ 
+                        marginTop: 8, 
+                        padding: '8px',
+                        backgroundColor: 'var(--colorNeutralBackground3)',
+                        borderRadius: '4px',
+                        fontSize: 12, 
+                        opacity: 0.85 
+                      }}>
+                        <div><strong>Name:</strong> {v.fileMeta.name}</div>
+                        <div><strong>Size:</strong> {Math.round(v.fileMeta.size / 1024)} KB</div>
+                        <div><strong>Type:</strong> {v.fileMeta.type || 'Unknown'}</div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Tags Section */}
+          <div style={{ 
+            padding: '12px', 
+            background: 'var(--colorNeutralBackground2)', 
+            borderRadius: '8px',
+            border: '1px solid var(--colorNeutralStroke1)'
+          }}>
+            <Text weight="semibold" size="medium" style={{ marginBottom: '8px', display: 'block' }}>
+              Tags
+            </Text>
+            
+            <div style={{ marginBottom: '8px' }}>
+              <Text size="small" style={{ opacity: 0.7 }}>Add tags to help categorize and find this document</Text>
+            </div>
+            
+            <Field 
+              validationMessage={errors.tags} 
+              validationState={errors.tags ? 'error' : undefined}
+            >
+              <Input
+                ref={tagsRef}
+                value={Array.isArray(v.tags) ? v.tags.join(', ') : ''}
+                onChange={(_, d) => set({ tags: d.value.split(',').map(s => s.trim()).filter(Boolean) })}
+                onBlur={() => onFieldBlur && onFieldBlur('tags')}
+                placeholder="knowledge, faq, policy, documentation"
               />
+            </Field>
+            
+            <div style={{ marginTop: 4 }}>
+              <Text size={200} style={{ opacity: 0.7 }}>
+                Separate tags with commas • {Array.isArray(v.tags) ? v.tags.length : 0}/{MAX.tagsCount} tags
+              </Text>
             </div>
-          </Field>
-        )}
-
-        {v.kind === 'url' && (
-          <Field label={
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <span>URL</span>
-              <Text size={200} style={{ opacity: 0.7 }}>{counts.url}/{MAX.url}</Text>
-            </div>
-          } validationMessage={errors.url} validationState={errors.url ? 'error' : undefined}>
-            <Input ref={urlRef} value={v.url || ''} onChange={(_, d) => set({ url: d.value })} onBlur={() => onFieldBlur && onFieldBlur('url')} placeholder="https://example.com/doc" />
-          </Field>
-        )}
-
-        {v.kind === 'file' && (
-          <div>
-            <Label htmlFor="file-input">File (metadata only)</Label>
-            <input
-              id="file-input"
-              ref={fileRef}
-              type="file"
-              accept="text/*,application/pdf"
-              onBlur={() => onFieldBlur && onFieldBlur('file')}
-              onChange={(e) => {
-                const file = e.target.files && e.target.files[0];
-                if (!file) { set({ fileMeta: null }); return; }
-                set({ fileMeta: { name: file.name, size: file.size, type: file.type } });
-              }}
-            />
-            {errors.file && (
-              <div role="alert" aria-live="polite" style={{ color: 'var(--colorPaletteRedForeground1, #a80000)', fontSize: 12, marginTop: 4 }}>{errors.file}</div>
-            )}
-            {v.fileMeta && (
-              <div style={{ marginTop: 8, fontSize: 12, opacity: 0.85 }}>
-                <div><strong>Name:</strong> {v.fileMeta.name}</div>
-                <div><strong>Size:</strong> {v.fileMeta.size} bytes</div>
-                <div><strong>Type:</strong> {v.fileMeta.type || 'n/a'}</div>
-              </div>
-            )}
           </div>
-        )}
-
-        <Field label="Tags (comma-separated)" validationMessage={errors.tags} validationState={errors.tags ? 'error' : undefined}>
-          <Input
-            ref={tagsRef}
-            value={Array.isArray(v.tags) ? v.tags.join(', ') : ''}
-            onChange={(_, d) => set({ tags: d.value.split(',').map(s => s.trim()).filter(Boolean) })}
-            onBlur={() => onFieldBlur && onFieldBlur('tags')}
-            placeholder="knowledge, faq, policy"
-          />
-        </Field>
+        </div>
       </div>
-    </form>
+    </div>
   );
 });
 
 export default DocumentForm;
-
-

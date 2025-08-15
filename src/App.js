@@ -10,6 +10,7 @@ import useStyles from './App.styles';
 import { chat as chatService } from './services';
 import { AgentsProvider } from './services/agents/store';
 import { PromptsProvider } from './services/prompts/store';
+import { TestProvider } from './services/tests/store';
 import { PluginsProvider } from './services/plugins';
 import dateTimePlugin from './plugins/date-time';
 
@@ -111,56 +112,58 @@ export default function App() {
   const recentChats = useMemo(() => displayChats.filter(c => !c.pinned), [displayChats]);
     return (
       <FluentProvider theme={webLightTheme}>
-        <PromptsProvider>
-        <AgentsProvider>
-        <PluginsProvider plugins={[dateTimePlugin]}>
-      <div className={styles.root}>
-        <Sidebar
-          pinnedChats={pinnedChats}
-          recentChats={recentChats}
-          selectedChatId={selectedChatId}
-          onCreateChat={handleCreateChat}
-          onSelectChat={handleSelectChat}
-          onTogglePin={handleTogglePin}
-          searchQuery={searchQuery}
-          onSearch={setSearchQuery}
-          onOpenAgents={() => setIsAgentModalOpen(true)}
-          onOpenPrompts={() => setIsPromptModalOpen(true)}
-          onOpenDocuments={() => setIsDocumentsModalOpen(true)}
-          manageAgentsButtonRef={manageAgentsBtnRef}
-          manageDocumentsButtonRef={manageDocumentsBtnRef}
-        />
-        <div className={styles.chatPanel}>
-          <ChatPanel
-            chat={selectedChat}
-            onNewChat={handleCreateChat}
-            onDeleteChat={() => handleDeleteChat(selectedChatId)}
-            onRequestRefresh={refreshChats}
-          />
-        </div>
-        <InfoPanel lastAssistantMessage={lastAssistantMessage} />
-        <AgentManagementModal
-          isOpen={isAgentModalOpen}
-          onClose={() => {
-            setIsAgentModalOpen(false);
-            // Return focus to trigger for accessibility
-            const btn = manageAgentsBtnRef.current;
-            if (btn && typeof btn.focus === 'function') btn.focus();
-          }}
-        />
-          <PromptManagementModal isOpen={isPromptModalOpen} onClose={() => setIsPromptModalOpen(false)} />
-          <DocumentSourceManagementModal
-            isOpen={isDocumentsModalOpen}
-            onClose={() => {
-              setIsDocumentsModalOpen(false);
-              const btn = manageDocumentsBtnRef.current;
-              if (btn && typeof btn.focus === 'function') btn.focus();
-            }}
-          />
-      </div>
-        </PluginsProvider>
-        </AgentsProvider>
-        </PromptsProvider>
-    </FluentProvider>
-  );
+        <TestProvider>
+          <PromptsProvider>
+            <AgentsProvider>
+              <PluginsProvider plugins={[dateTimePlugin]}>
+                <div className={styles.root}>
+                  <Sidebar
+                    pinnedChats={pinnedChats}
+                    recentChats={recentChats}
+                    selectedChatId={selectedChatId}
+                    onCreateChat={handleCreateChat}
+                    onSelectChat={handleSelectChat}
+                    onTogglePin={handleTogglePin}
+                    searchQuery={searchQuery}
+                    onSearch={setSearchQuery}
+                    onOpenAgents={() => setIsAgentModalOpen(true)}
+                    onOpenPrompts={() => setIsPromptModalOpen(true)}
+                    onOpenDocuments={() => setIsDocumentsModalOpen(true)}
+                    manageAgentsButtonRef={manageAgentsBtnRef}
+                    manageDocumentsButtonRef={manageDocumentsBtnRef}
+                  />
+                  <div className={styles.chatPanel}>
+                    <ChatPanel
+                      chat={selectedChat}
+                      onNewChat={handleCreateChat}
+                      onDeleteChat={() => handleDeleteChat(selectedChatId)}
+                      onRequestRefresh={refreshChats}
+                    />
+                  </div>
+                  <InfoPanel lastAssistantMessage={lastAssistantMessage} />
+                  <AgentManagementModal
+                    isOpen={isAgentModalOpen}
+                    onClose={() => {
+                      setIsAgentModalOpen(false);
+                      // Return focus to trigger for accessibility
+                      const btn = manageAgentsBtnRef.current;
+                      if (btn && typeof btn.focus === 'function') btn.focus();
+                    }}
+                  />
+                  <PromptManagementModal isOpen={isPromptModalOpen} onClose={() => setIsPromptModalOpen(false)} />
+                  <DocumentSourceManagementModal
+                    isOpen={isDocumentsModalOpen}
+                    onClose={() => {
+                      setIsDocumentsModalOpen(false);
+                      const btn = manageDocumentsBtnRef.current;
+                      if (btn && typeof btn.focus === 'function') btn.focus();
+                    }}
+                  />
+                </div>
+              </PluginsProvider>
+            </AgentsProvider>
+          </PromptsProvider>
+        </TestProvider>
+      </FluentProvider>
+    );
 }

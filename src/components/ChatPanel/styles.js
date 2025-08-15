@@ -68,7 +68,7 @@ const useStyles = makeStyles({
     ':hover': {
       transform: 'translateY(-2px) scale(1.01)',
       boxShadow: shadows.interactive.hover,
-      borderColor: colors.brand.stroke,
+      borderLeftColor: colors.brand.stroke,
     },
     ':active': {
       transform: 'translateY(-1px) scale(0.99)',
@@ -93,7 +93,7 @@ const useStyles = makeStyles({
     ':hover': {
       transform: 'translateY(-2px) scale(1.01)',
       boxShadow: shadows.interactive.hover,
-      borderColor: colors.brand.stroke,
+      borderLeftColor: colors.brand.stroke,
     },
     ':active': {
       transform: 'translateY(-1px) scale(0.99)',
@@ -134,7 +134,7 @@ const useStyles = makeStyles({
     transitionDuration: tokens.durationNormal,
     boxShadow: shadows.components.input,
     ':focus-within': {
-      borderColor: tokens.colorBrandStroke1,
+      borderLeftColor: tokens.colorBrandStroke1,
       boxShadow: shadows.interactive.focus,
     },
   },

@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Button, Dialog, DialogSurface, DialogBody, DialogTitle, DialogContent, DialogActions, Divider, Text, MessageBar } from '@fluentui/react-components';
+import { Button, Dialog, DialogSurface, DialogBody, DialogTitle, DialogContent, DialogActions, Text, MessageBar } from '@fluentui/react-components';
 import useStyles from './styles';
 import useModalSurfaceStyles from '../Layout/modalSurfaceStyles';
 import DocumentList from './DocumentList';
@@ -244,14 +244,14 @@ const DocumentSourceManagementModal = ({
         <DialogSurface aria-label="Document source management dialog" className={modalSurfaceStyles.surface}>
           <DialogBody>
             <DialogTitle>{picker ? 'Select Document Source' : 'Manage Document Sources'}</DialogTitle>
-            <DialogContent>
+            <DialogContent className={styles.content}>
               {picker ? (
                 <MessageBar intent="warning" style={{ marginBottom: 8 }}>
                   Edits you make here are saved directly to this document source.
                 </MessageBar>
               ) : null}
-              <div className={styles.container}>
-                <section className={styles.leftPane} aria-label="Document list">
+              <div className={styles.splitPane}>
+                <div className={styles.listPane}>
                   <DocumentList
                     documents={visibleDocuments}
                     selectedId={selectedId}
@@ -260,9 +260,8 @@ const DocumentSourceManagementModal = ({
                     onSelect={(id) => setSelectedId(id)}
                     onCreateNew={() => setSelectedId(null)}
                   />
-                </section>
-                <Divider vertical className={styles.divider} />
-                <section className={styles.rightPane} aria-label="Document form">
+                </div>
+                <div className={styles.formPane}>
                   <DocumentForm
                     ref={formRef}
                     value={draft}
@@ -271,7 +270,7 @@ const DocumentSourceManagementModal = ({
                     disabled={false}
                     onFieldBlur={onFormFieldBlur}
                   />
-                </section>
+                </div>
               </div>
             </DialogContent>
             <DialogActions>
@@ -310,5 +309,3 @@ const DocumentSourceManagementModal = ({
 };
 
 export default DocumentSourceManagementModal;
-
-

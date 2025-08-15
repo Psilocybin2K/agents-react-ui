@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Button, Dialog, DialogActions, DialogBody, DialogContent, DialogSurface, DialogTitle, Divider, Text, MessageBar } from '@fluentui/react-components';
+import { Button, Dialog, DialogActions, DialogBody, DialogContent, DialogSurface, DialogTitle, Text, MessageBar } from '@fluentui/react-components';
 import useStyles from './styles';
 import useModalSurfaceStyles from '../Layout/modalSurfaceStyles';
 import PromptList from './PromptList';
@@ -8,6 +8,19 @@ import DeleteConfirm from './DeleteConfirm';
 import ConfirmDialog from './ConfirmDialog';
 import { usePrompts } from '../../services/prompts/store';
 
+/**
+ * Modal component for managing prompts - allows viewing, creating, editing, and deleting prompts.
+ * Can be used in two modes: full management mode or picker mode for selecting a prompt.
+ * 
+ * @param {Object} props - Component props
+ * @param {boolean} [props.isOpen=false] - Whether the modal is open
+ * @param {Function} [props.onClose] - Callback when modal is closed
+ * @param {Function} [props.onSaved] - Callback when a prompt is saved, receives the saved prompt
+ * @param {string|null} [props.initialPromptId=null] - ID of prompt to initially select
+ * @param {boolean} [props.picker=false] - Whether to show in picker mode (for selecting prompts)
+ * @param {Function} [props.onPick] - Callback when a prompt is picked in picker mode, receives the selected prompt
+ * @returns {JSX.Element} The prompt management modal
+ */
 const PromptManagementModal = ({
   isOpen = false,
   onClose,
@@ -34,6 +47,9 @@ const PromptManagementModal = ({
   const [isUnsavedOpen, setIsUnsavedOpen] = useState(false);
   const [isAttemptingClose, setIsAttemptingClose] = useState(false);
 
+  /**
+   * Effect to sync draft state with selected prompt from store
+   */
   useEffect(() => {
     if (!selectedId) {
       setDraft({ id: null, name: '', description: '', content: '', variables: [], tags: [] });
@@ -53,10 +69,18 @@ const PromptManagementModal = ({
   }, [selectedId, prompts]);
 
   const [formErrors, setFormErrors] = useState({});
+  
+  /**
+   * Computed property that determines if the current draft can be saved
+   */
   const canSave = useMemo(() => {
     return draft.name.trim().length > 0 && draft.content.trim().length > 0;
   }, [draft]);
 
+  /**
+   * Validates the current draft and sets form errors
+   * @returns {boolean} True if validation passes, false otherwise
+   */
   function validateDraft() {
     const errs = {};
     if (!draft.name?.trim()) errs.name = 'Name is required';
@@ -67,6 +91,9 @@ const PromptManagementModal = ({
     return Object.keys(errs).length === 0;
   }
 
+  /**
+   * Handles saving the current draft - either creates new prompt or updates existing one
+   */
   async function handleSave() {
     if (!validateDraft()) return;
     const payload = {
@@ -89,6 +116,9 @@ const PromptManagementModal = ({
     }
   }
 
+  /**
+   * Handles confirming prompt deletion
+   */
   async function handleConfirmDelete() {
     if (!draft.id) return;
     await deletePrompt(draft.id);
@@ -97,6 +127,10 @@ const PromptManagementModal = ({
     setDraft({ id: null, name: '', description: '', content: '', variables: [], tags: [] });
   }
 
+  /**
+   * Checks if there are unsaved changes in the current draft
+   * @returns {boolean} True if there are unsaved changes, false otherwise
+   */
   function hasUnsavedChanges() {
     const existing = (prompts || []).find(p => p.id === selectedId);
     if (!existing) {
@@ -113,6 +147,9 @@ const PromptManagementModal = ({
     );
   }
 
+  /**
+   * Handles modal close request - checks for unsaved changes and shows confirmation if needed
+   */
   function requestClose() {
     if (hasUnsavedChanges()) {
       setIsAttemptingClose(true);
@@ -132,30 +169,29 @@ const PromptManagementModal = ({
       <DialogSurface aria-label="Prompt management dialog" className={modalSurfaceStyles.surface}>
         <DialogBody>
           <DialogTitle>{picker ? 'Select Prompt' : 'Manage Prompts'}</DialogTitle>
-          <DialogContent>
+          <DialogContent className={styles.content}>
             {picker ? (
               <MessageBar intent="warning" style={{ marginBottom: 8 }}>
                 Edits you make here are saved directly to this prompt.
               </MessageBar>
             ) : null}
-            <div className={styles.container}>
-              <section className={styles.leftPane} aria-label="Prompt list">
+            <div className={styles.splitPane}>
+              <div className={styles.listPane}>
                 <PromptList
                   prompts={prompts}
                   selectedId={selectedId}
                   onSelect={(id) => setSelectedId(id)}
                   onCreateNew={() => setSelectedId(null)}
                 />
-              </section>
-              <Divider vertical className={styles.divider} />
-              <section className={styles.rightPane} aria-label="Prompt form">
+              </div>
+              <div className={styles.formPane}>
                 <PromptForm
                   value={draft}
                   onChange={setDraft}
                   errors={formErrors}
                   disabled={false}
                 />
-              </section>
+              </div>
             </div>
           </DialogContent>
           <DialogActions>
@@ -198,5 +234,3 @@ const PromptManagementModal = ({
 };
 
 export default PromptManagementModal;
-
-

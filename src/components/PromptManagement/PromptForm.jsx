@@ -15,6 +15,12 @@ const PromptForm = ({ value, onChange, errors = {}, disabled = false }) => {
 
   const update = (patch) => onChange && onChange({ ...v, ...patch });
 
+  const counters = {
+    name: (v.name || '').length,
+    description: (v.description || '').length,
+    content: (v.content || '').length,
+  };
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
       {/* Scrollable Content */}
@@ -32,11 +38,42 @@ const PromptForm = ({ value, onChange, errors = {}, disabled = false }) => {
             </Text>
             
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-              <Field label="Name" required validationState={errors.name ? 'error' : undefined} validationMessage={errors.name}>
-                <Input aria-label="Name" value={v.name} maxLength={NAME_MAX} disabled={disabled} onChange={(e, d) => update({ name: (d && 'value' in d) ? d.value : e.target.value })} />
+              <Field 
+                label={
+                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <span>Name</span>
+                    <Text size={200} style={{ opacity: 0.7 }}>{counters.name}/{NAME_MAX}</Text>
+                  </div>
+                } 
+                required 
+                validationState={errors.name ? 'error' : undefined} 
+                validationMessage={errors.name}
+              >
+                <Input 
+                  value={v.name} 
+                  maxLength={NAME_MAX} 
+                  disabled={disabled} 
+                  onChange={(e, d) => update({ name: (d && 'value' in d) ? d.value : e.target.value })} 
+                />
               </Field>
-              <Field label="Description" validationState={errors.description ? 'error' : undefined} validationMessage={errors.description}>
-                <Input aria-label="Description" value={v.description} maxLength={DESC_MAX} disabled={disabled} onChange={(e, d) => update({ description: (d && 'value' in d) ? d.value : e.target.value })} />
+
+              <Field 
+                label={
+                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <span>Description</span>
+                    <Text size={200} style={{ opacity: 0.7 }}>{counters.description}/{DESC_MAX}</Text>
+                  </div>
+                } 
+                validationState={errors.description ? 'error' : undefined} 
+                validationMessage={errors.description}
+              >
+                <Input 
+                  value={v.description} 
+                  maxLength={DESC_MAX} 
+                  disabled={disabled} 
+                  onChange={(e, d) => update({ description: (d && 'value' in d) ? d.value : e.target.value })} 
+                  placeholder="Describe what this prompt does..."
+                />
               </Field>
             </div>
           </div>
@@ -52,15 +89,25 @@ const PromptForm = ({ value, onChange, errors = {}, disabled = false }) => {
               Prompt Content
             </Text>
             
-            <Field label="Content" hint="The prompt body/template" required validationState={errors.content ? 'error' : undefined} validationMessage={errors.content}>
+            <Field 
+              label={
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <span>Content</span>
+                  <Text size={200} style={{ opacity: 0.7 }}>{counters.content}/{CONTENT_MAX}</Text>
+                </div>
+              } 
+              required 
+              validationState={errors.content ? 'error' : undefined} 
+              validationMessage={errors.content}
+            >
               <Textarea 
-                aria-label="Content" 
                 value={v.content} 
                 maxLength={CONTENT_MAX} 
                 disabled={disabled} 
                 onChange={(e, d) => update({ content: (d && 'value' in d) ? d.value : e.target.value })}
                 rows={6}
                 style={{ minHeight: '120px', resize: 'vertical' }}
+                placeholder="Enter your prompt template here..."
               />
             </Field>
           </div>
@@ -77,25 +124,43 @@ const PromptForm = ({ value, onChange, errors = {}, disabled = false }) => {
             </Text>
             
             <div style={{ marginBottom: '8px' }}>
-              <Text size="small" style={{ opacity: 0.7 }}>Name-only editor (skeleton)</Text>
+              <Text size="small" style={{ opacity: 0.7 }}>Define variables that can be used in your prompt template</Text>
             </div>
             
             <div className={styles.variablesBox}>
               {(v.variables || []).map((vr, idx) => (
                 <div key={idx} className={styles.variableRow}>
-                  <Input aria-label={`Variable ${idx + 1}`} value={vr.name || ''} placeholder="name" maxLength={TAG_MAX} disabled={disabled} onChange={(e, d) => {
-                    const next = [...(v.variables || [])];
-                    const nextVal = (d && 'value' in d) ? d.value : e.target.value;
-                    next[idx] = { ...next[idx], name: nextVal };
-                    update({ variables: next });
-                  }} />
-                  <Button appearance="secondary" disabled={disabled} onClick={() => {
-                    const next = (v.variables || []).filter((_, i) => i !== idx);
-                    update({ variables: next });
-                  }}>Remove</Button>
+                  <Input 
+                    value={vr.name || ''} 
+                    placeholder="Variable name" 
+                    maxLength={TAG_MAX} 
+                    disabled={disabled} 
+                    onChange={(e, d) => {
+                      const next = [...(v.variables || [])];
+                      const nextVal = (d && 'value' in d) ? d.value : e.target.value;
+                      next[idx] = { ...next[idx], name: nextVal };
+                      update({ variables: next });
+                    }} 
+                  />
+                  <Button 
+                    appearance="secondary" 
+                    disabled={disabled} 
+                    onClick={() => {
+                      const next = (v.variables || []).filter((_, i) => i !== idx);
+                      update({ variables: next });
+                    }}
+                  >
+                    Remove
+                  </Button>
                 </div>
               ))}
-              <Button appearance="primary" disabled={disabled || (v.variables || []).length >= VAR_MAX} onClick={() => update({ variables: [...(v.variables || []), { name: '' }] })}>Add variable</Button>
+              <Button 
+                appearance="primary" 
+                disabled={disabled || (v.variables || []).length >= VAR_MAX} 
+                onClick={() => update({ variables: [...(v.variables || []), { name: '' }] })}
+              >
+                Add Variable
+              </Button>
             </div>
             
             {errors.variables && (
@@ -116,23 +181,41 @@ const PromptForm = ({ value, onChange, errors = {}, disabled = false }) => {
               Tags
             </Text>
             
-            <TagGroup>
+            <div style={{ marginBottom: '8px' }}>
+              <Text size="small" style={{ opacity: 0.7 }}>Add tags to help organize and find this prompt</Text>
+            </div>
+            
+            <TagGroup style={{ marginBottom: '8px' }}>
               {(v.tags || []).map((t, idx) => (
-                <Tag key={idx} shape="rounded" dismissible disabled={disabled} onDismiss={() => update({ tags: (v.tags || []).filter((_, i) => i !== idx) })}>{t}</Tag>
+                <Tag 
+                  key={idx} 
+                  shape="rounded" 
+                  dismissible 
+                  disabled={disabled} 
+                  onDismiss={() => update({ tags: (v.tags || []).filter((_, i) => i !== idx) })}
+                >
+                  {t}
+                </Tag>
               ))}
             </TagGroup>
-            <div style={{ marginTop: 6, display: 'flex', gap: 8 }}>
-              <Input aria-label="Add tag" placeholder="Add tag" disabled={disabled || (v.tags || []).length >= TAGS_MAX_COUNT} onKeyDown={(e) => {
-                if (e.key === 'Enter') {
-                  e.preventDefault();
-                  const input = e.currentTarget.value.trim();
-                  if (input && input.length <= TAG_MAX && (v.tags || []).length < TAGS_MAX_COUNT) {
-                    update({ tags: [...(v.tags || []), input] });
-                    e.currentTarget.value = '';
+            
+            <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+              <Input 
+                placeholder="Add tag" 
+                disabled={disabled || (v.tags || []).length >= TAGS_MAX_COUNT} 
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    e.preventDefault();
+                    const input = e.currentTarget.value.trim();
+                    if (input && input.length <= TAG_MAX && (v.tags || []).length < TAGS_MAX_COUNT) {
+                      update({ tags: [...(v.tags || []), input] });
+                      e.currentTarget.value = '';
+                    }
                   }
-                }
-              }} />
-              <Text size={200} style={{ opacity: 0.7 }}>Press Enter to add</Text>
+                }} 
+                style={{ flex: 1 }}
+              />
+              <Text size={200} style={{ opacity: 0.7 }}>Press Enter</Text>
             </div>
             
             {errors.tags && (
@@ -148,5 +231,3 @@ const PromptForm = ({ value, onChange, errors = {}, disabled = false }) => {
 };
 
 export default PromptForm;
-
-
