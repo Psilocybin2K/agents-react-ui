@@ -1,0 +1,302 @@
+/* Import animations and typography */
+@import './styles/animations.css';
+
+/* Global resets to prevent unwanted page scroll */
+html, body, #root {
+  height: 100%;
+}
+
+/* Enhanced Typography System */
+:root {
+  /* Font Sizes */
+  --font-size-xs: 10px;
+  --font-size-sm: 12px;
+  --font-size-base: 14px;
+  --font-size-lg: 16px;
+  --font-size-xl: 20px;
+  --font-size-2xl: 24px;
+  --font-size-3xl: 28px;
+  --font-size-4xl: 32px;
+  --font-size-5xl: 40px;
+
+  /* Font Weights */
+  --font-weight-light: 100;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 900;
+
+  /* Line Heights */
+  --line-height-tight: 1.2;
+  --line-height-normal: 1.4;
+  --line-height-relaxed: 1.6;
+  --line-height-loose: 1.8;
+
+  /* Letter Spacing */
+  --letter-spacing-tight: -0.025em;
+  --letter-spacing-normal: 0em;
+  --letter-spacing-wide: 0.025em;
+  --letter-spacing-wider: 0.05em;
+  --letter-spacing-widest: 0.1em;
+
+  /* Spacing */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 12px;
+  --spacing-lg: 16px;
+  --spacing-xl: 20px;
+  --spacing-2xl: 24px;
+  --spacing-3xl: 32px;
+  --spacing-4xl: 40px;
+  --spacing-5xl: 48px;
+  --spacing-6xl: 64px;
+
+  /* Enhanced Color System */
+  /* Brand Colors */
+  --color-brand-primary: #0078d4;
+  --color-brand-secondary: #106ebe;
+  --color-brand-stroke: #0078d4;
+  --color-brand-background: #0078d4;
+  
+  /* Semantic Colors */
+  --color-success: #107C10;
+  --color-success-bg: #DFF6DD;
+  --color-success-border: #107C10;
+  
+  --color-warning: #D83B01;
+  --color-warning-bg: #FFF4CE;
+  --color-warning-border: #D83B01;
+  
+  --color-error: #D13438;
+  --color-error-bg: #FDE7E9;
+  --color-error-border: #D13438;
+  
+  --color-info: #0078D4;
+  --color-info-bg: #EFF6FC;
+  --color-info-border: #0078D4;
+  
+  /* Status Colors */
+  --color-status-online: #107C10;
+  --color-status-offline: #8A8A8A;
+  --color-status-away: #D83B01;
+  --color-status-busy: #D13438;
+  
+  /* Focus Colors */
+  --color-focus-primary: #0078d4;
+  --color-focus-outline: 2px solid;
+  --color-focus-offset: 2px;
+}
+
+/* Typography utility classes */
+.text-xs { font-size: var(--font-size-xs); }
+.text-sm { font-size: var(--font-size-sm); }
+.text-base { font-size: var(--font-size-base); }
+.text-lg { font-size: var(--font-size-lg); }
+.text-xl { font-size: var(--font-size-xl); }
+.text-2xl { font-size: var(--font-size-2xl); }
+.text-3xl { font-size: var(--font-size-3xl); }
+.text-4xl { font-size: var(--font-size-4xl); }
+.text-5xl { font-size: var(--font-size-5xl); }
+
+.font-light { font-weight: var(--font-weight-light); }
+.font-normal { font-weight: var(--font-weight-normal); }
+.font-medium { font-weight: var(--font-weight-medium); }
+.font-semibold { font-weight: var(--font-weight-semibold); }
+.font-bold { font-weight: var(--font-weight-bold); }
+.font-extrabold { font-weight: var(--font-weight-extrabold); }
+
+.leading-tight { line-height: var(--line-height-tight); }
+.leading-normal { line-height: var(--line-height-normal); }
+.leading-relaxed { line-height: var(--line-height-relaxed); }
+.leading-loose { line-height: var(--line-height-loose); }
+
+.tracking-tight { letter-spacing: var(--letter-spacing-tight); }
+.tracking-normal { letter-spacing: var(--letter-spacing-normal); }
+.tracking-wide { letter-spacing: var(--letter-spacing-wide); }
+.tracking-wider { letter-spacing: var(--letter-spacing-wider); }
+.tracking-widest { letter-spacing: var(--letter-spacing-widest); }
+
+/* Spacing utility classes */
+.p-xs { padding: var(--spacing-xs); }
+.p-sm { padding: var(--spacing-sm); }
+.p-md { padding: var(--spacing-md); }
+.p-lg { padding: var(--spacing-lg); }
+.p-xl { padding: var(--spacing-xl); }
+.p-2xl { padding: var(--spacing-2xl); }
+
+.m-xs { margin: var(--spacing-xs); }
+.m-sm { margin: var(--spacing-sm); }
+.m-md { margin: var(--spacing-md); }
+.m-lg { margin: var(--spacing-lg); }
+.m-xl { margin: var(--spacing-xl); }
+.m-2xl { margin: var(--spacing-2xl); }
+
+.gap-xs { gap: var(--spacing-xs); }
+.gap-sm { gap: var(--spacing-sm); }
+.gap-md { gap: var(--spacing-md); }
+.gap-lg { gap: var(--spacing-lg); }
+.gap-xl { gap: var(--spacing-xl); }
+.gap-2xl { gap: var(--spacing-2xl); }
+
+/* Color utility classes */
+.text-brand { color: var(--color-brand-primary); }
+.text-success { color: var(--color-success); }
+.text-warning { color: var(--color-warning); }
+.text-error { color: var(--color-error); }
+.text-info { color: var(--color-info); }
+
+.bg-brand { background-color: var(--color-brand-background); }
+.bg-success { background-color: var(--color-success-bg); }
+.bg-warning { background-color: var(--color-warning-bg); }
+.bg-error { background-color: var(--color-error-bg); }
+.bg-info { background-color: var(--color-info-bg); }
+
+.border-brand { border-color: var(--color-brand-stroke); }
+.border-success { border-color: var(--color-success-border); }
+.border-warning { border-color: var(--color-warning-border); }
+.border-error { border-color: var(--color-error-border); }
+.border-info { border-color: var(--color-info-border); }
+
+/* Status indicator classes */
+.status-online { color: var(--color-status-online); }
+.status-offline { color: var(--color-status-offline); }
+.status-away { color: var(--color-status-away); }
+.status-busy { color: var(--color-status-busy); }
+
+/* Focus utility classes */
+.focus-ring {
+  outline: var(--color-focus-outline) var(--color-focus-primary);
+  outline-offset: var(--color-focus-offset);
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  :root {
+    --color-brand-primary: #000000;
+    --color-brand-stroke: #000000;
+    --color-success: #000000;
+    --color-warning: #000000;
+    --color-error: #000000;
+    --color-info: #000000;
+  }
+}
+
+/* Remove default browser body margin */
+body {
+  margin: 0;
+  overflow: hidden; /* prevent page-level scroll; app manages its own scroll areas */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Enhanced visual depth and elevation system */
+:root {
+  /* Elevation levels */
+  --elevation-level0: none;
+  --elevation-level1: 0 1px 2px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
+  --elevation-level2: 0 2px 4px rgba(0, 0, 0, 0.05), 0 1px 6px rgba(0, 0, 0, 0.1);
+  --elevation-level3: 0 4px 8px rgba(0, 0, 0, 0.08), 0 2px 12px rgba(0, 0, 0, 0.12);
+  --elevation-level4: 0 8px 16px rgba(0, 0, 0, 0.1), 0 4px 24px rgba(0, 0, 0, 0.15);
+  --elevation-level5: 0 16px 32px rgba(0, 0, 0, 0.12), 0 8px 48px rgba(0, 0, 0, 0.18);
+  
+  /* Z-index scale */
+  --z-index-base: 0;
+  --z-index-card: 1;
+  --z-index-dropdown: 100;
+  --z-index-sticky: 200;
+  --z-index-overlay: 300;
+  --z-index-modal: 400;
+  --z-index-tooltip: 500;
+  --z-index-toast: 600;
+  
+  /* Interactive shadows */
+  --shadow-hover: 0 6px 12px rgba(0, 0, 0, 0.12), 0 3px 18px rgba(0, 0, 0, 0.15);
+  --shadow-focus: 0 0 0 2px #0078d4, 0 4px 8px rgba(0, 0, 0, 0.1);
+  --shadow-pressed: 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 6px rgba(0, 0, 0, 0.2);
+  
+  /* Component shadows */
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.06), 0 1px 12px rgba(0, 0, 0, 0.08);
+  --shadow-button: 0 2px 4px rgba(0, 0, 0, 0.08), 0 1px 6px rgba(0, 0, 0, 0.1);
+  --shadow-input: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.05);
+  --shadow-message: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 6px rgba(0, 0, 0, 0.08);
+  --shadow-modal: 0 20px 40px rgba(0, 0, 0, 0.15), 0 10px 60px rgba(0, 0, 0, 0.2);
+}
+
+/* Dark mode elevation adjustments */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --elevation-level1: 0 1px 2px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.4);
+    --elevation-level2: 0 2px 4px rgba(0, 0, 0, 0.3), 0 1px 6px rgba(0, 0, 0, 0.4);
+    --elevation-level3: 0 4px 8px rgba(0, 0, 0, 0.35), 0 2px 12px rgba(0, 0, 0, 0.45);
+    --elevation-level4: 0 8px 16px rgba(0, 0, 0, 0.4), 0 4px 24px rgba(0, 0, 0, 0.5);
+    --elevation-level5: 0 16px 32px rgba(0, 0, 0, 0.45), 0 8px 48px rgba(0, 0, 0, 0.55);
+    
+    --shadow-hover: 0 6px 12px rgba(0, 0, 0, 0.4), 0 3px 18px rgba(0, 0, 0, 0.5);
+    --shadow-focus: 0 0 0 2px #0078d4, 0 4px 8px rgba(0, 0, 0, 0.3);
+    --shadow-pressed: 0 2px 4px rgba(0, 0, 0, 0.5), 0 1px 6px rgba(0, 0, 0, 0.6);
+    
+    --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.3), 0 1px 12px rgba(0, 0, 0, 0.4);
+    --shadow-button: 0 2px 4px rgba(0, 0, 0, 0.3), 0 1px 6px rgba(0, 0, 0, 0.4);
+    --shadow-input: 0 0 0 1px rgba(0, 0, 0, 0.3), 0 2px 4px rgba(0, 0, 0, 0.2);
+    --shadow-message: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 6px rgba(0, 0, 0, 0.4);
+    --shadow-modal: 0 20px 40px rgba(0, 0, 0, 0.4), 0 10px 60px rgba(0, 0, 0, 0.5);
+  }
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/* Respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+    transform: none !important;
+  }
+}
+
+/* Subtle, consistent scrollbar styling */
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.3) transparent;
+}
+
+/* WebKit (Chrome, Edge, Safari) */
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+*::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.25);
+  border-radius: 8px;
+  border: 2px solid transparent; /* creates an inset look */
+  background-clip: content-box;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0, 0, 0, 0.35);
+}
+*::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Dark mode tune */
+@media (prefers-color-scheme: dark) {
+  * {
+    scrollbar-color: rgba(255, 255, 255, 0.35) transparent;
+  }
+  *::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.3);
+  }
+  *::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(255, 255, 255, 0.4);
+  }
+}
+

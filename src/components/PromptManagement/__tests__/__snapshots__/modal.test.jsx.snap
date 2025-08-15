@@ -1,0 +1,149 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`snapshot: initial render structure 1`] = `
+<div
+  modaltype="modal"
+  open=""
+>
+  <div
+    aria-label="Prompt management dialog"
+  >
+    <div>
+      <div>
+        Manage Prompts
+      </div>
+      <div>
+        <div>
+          <section
+            aria-label="Prompt list"
+          >
+            <div>
+              <div>
+                <input
+                  placeholder="Search prompts"
+                  value=""
+                />
+                <button
+                  appearance="primary"
+                  icon="[object Object]"
+                >
+                  New
+                </button>
+              </div>
+              <div
+                role="list"
+              >
+                <div
+                  size="200"
+                  style="opacity: 0.7;"
+                >
+                  No prompts yet
+                </div>
+              </div>
+            </div>
+          </section>
+          <div />
+          <section
+            aria-label="Prompt form"
+          >
+            <form>
+              <div>
+                <div
+                  label="Name"
+                  required=""
+                >
+                  <input
+                    disabled=""
+                    maxlength="100"
+                    value=""
+                  />
+                </div>
+                <div
+                  label="Description"
+                >
+                  <input
+                    disabled=""
+                    maxlength="500"
+                    value=""
+                  />
+                </div>
+                <div
+                  hint="The prompt body/template"
+                  label="Content"
+                  required=""
+                >
+                  <textarea
+                    disabled=""
+                    maxlength="5000"
+                  />
+                </div>
+                <div>
+                  <div
+                    hint="Name-only editor (skeleton)"
+                    label="Variables"
+                  >
+                    <div>
+                      <button
+                        appearance="primary"
+                        disabled=""
+                      >
+                        Add variable
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <div
+                    label="Tags"
+                  >
+                    <div />
+                    <div
+                      style="margin-top: 8px; display: flex; gap: 8px;"
+                    >
+                      <input
+                        disabled=""
+                        placeholder="Add tag"
+                      />
+                      <div
+                        size="200"
+                        style="opacity: 0.7;"
+                      >
+                        Press Enter to add
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </section>
+        </div>
+      </div>
+      <div>
+        <div>
+          <div>
+            <div
+              size="200"
+              style="opacity: 0.7;"
+            >
+              Loading…
+            </div>
+          </div>
+          <div>
+            <button
+              appearance="secondary"
+            >
+              Cancel
+            </button>
+            <button
+              appearance="primary"
+              disabled=""
+            >
+              Save
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
